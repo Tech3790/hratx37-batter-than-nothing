@@ -5,15 +5,19 @@ class Cart extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            customerName: ''
+            customerName: '',
+            data: []
         }
         this.nameChanged = this.nameChanged.bind(this);
         this.placeOrder = this.placeOrder.bind(this);
     }
+    componentDidMount(){
+        this.setState({data: this.props.data})
+    }
     placeOrder() {
         let body = {
             customerName: this.state.customerName,
-            orderDetails: this.props.data
+            orderDetails: this.state.data
         }
         axios.post('http://localhost:3001/placeorder', body)
             this.props.handleRoute('orderplaced');
@@ -21,7 +25,18 @@ class Cart extends React.Component {
     nameChanged(e) {
         this.setState({ customerName: e.target.value });
     }
-    removeItem(){
+    removeItem(itemNumber){
+
+        let arr = [];
+        for (let i = 0; i < this.state.data.length; i++) {
+           if (i !== itemNumber) {
+               arr.push(this.state.data[i]);
+           }          
+        }
+
+        this.setState({data: arr}, () => {
+            this.setState({data:arr})
+        })
 
     }
     render() {
@@ -29,11 +44,11 @@ class Cart extends React.Component {
         let collectionDonuts = [];
         let customDonuts = [];
 
-        for (let i = 0; i < this.props.data.length; i++) {
-            if (Object.keys(this.props.data[i]).length === 3) {
-                collectionDonuts.push(this.props.data[i]);
+        for (let i = 0; i < this.state.data.length; i++) {
+            if (Object.keys(this.state.data[i]).length === 3) {
+                collectionDonuts.push(this.state.data[i]);
             } else {
-                customDonuts.push(this.props.data[i]);
+                customDonuts.push(this.state.data[i]);
             }
 
         }
@@ -48,7 +63,7 @@ class Cart extends React.Component {
                             <td className="itemTd">Name: {order.name}</td>
                             <td className="itemTd">Quantity: {order.quantity}</td>
                             <td className="itemTd">Total: {order.total}</td>
-                            <td className="itemTd"><input type="button" value="X" /></td>
+                            <td className="itemTd"><input type="button" value="X" onClick={() => this.removeItem(i)}/></td>
                         </tr>
                     ))}
                 </tbody>
@@ -63,7 +78,7 @@ class Cart extends React.Component {
                             <td className="itemTd"> Topping 3 : {order.topping3}</td>
                             <td className="itemTd"> Quantity : {order.quantity}</td>
                             <td className="itemTd"> Total : {order.total}</td>
-                            <td className="itemTd"><input type="button" value="X" /></td>
+                            <td className="itemTd"><input type="button" value="X" onClick={() => this.removeItem(i)}/></td>
                         </tr>
                     ))}
                 </tbody>
