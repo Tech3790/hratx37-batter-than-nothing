@@ -3,8 +3,8 @@ exports.up = function (knex, Promise) {
         table.increments();
         table.string('name');
         table.string('description');
-        table.integer('donut_type_id').references('id').inTable('donut_types')
-        table.integer('donut_base_id').references('id').inTable('donut_bases')
+        table.float('price');
+        table.string('image');
         table.timestamps(true, true);
     });
 };

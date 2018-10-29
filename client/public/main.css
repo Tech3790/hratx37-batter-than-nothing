@@ -1,0 +1,48 @@
+body {
+    /* margin: 0px; */
+}
+
+.donutContainer {
+    margin-right: 300px;
+    margin-left: 20px;
+    float: left;
+}
+
+.donutImage {
+    width: 300px;
+    height: 300px;
+}
+
+.imageDiv {
+    text-align: center;
+}
+
+.orderContainer {
+    display: inline-block;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.bothDiv {
+    width: 100%;
+    text-align: center;
+}
+
+.navLinks {
+    margin-bottom: 40px;
+}
+
+.navLink {
+    margin: 10px;
+}
+
+.toppingOption {
+    display: inline;
+    color: red;
+}
+
+.itemTd{
+    margin: 100px;
+    color: red;
+    padding-left: 20px;
+}

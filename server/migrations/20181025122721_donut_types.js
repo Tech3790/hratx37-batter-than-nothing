@@ -1,7 +1,7 @@
 exports.up = function (knex, Promise) {
-    return knex.schema.createTable('donut_types', function (table) {
+    return knex.schema.createTable('donut_type', function (table) {
         table.increments();
-        table.string('type');
+        table.string('name');
         table.timestamps(true, true);
     });
 };

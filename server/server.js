@@ -1,12 +1,13 @@
-const { donutText, art} = require('../donuts') // very important
-
+const morgan = require('morgan');
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const morgan = require('morgan');
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
     const messages = [
         `--New Request:--\n`,
         `${req.method} ${req.url}\n`,
@@ -16,20 +17,16 @@ app.use((req,res,next)=>{
     next()
 })
 
-app.use( (_, res, next) => {
+app.use((_, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
+app.listen(PORT, () => {
+    console.log(`server is running on port ${PORT}`);
+});
+
 // set api routes
-const { donuts } = require('./routes');
-app.use('/api/donuts', donuts)
-
-
-app.listen(PORT, ()=>{
-    console.log('booyah',art, donutText, `\t listening on port ${PORT}`);
-})
-
-
-
+const { donuts, toppings, bases, types, placeOrder } = require('./routes');
+app.use('/', donuts, toppings, bases, types, placeOrder);

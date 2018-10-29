@@ -1,13 +1,13 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('donut_bases').del()
+  return knex('donut_base').del()
     .then(function () {
       // Inserts seed entries
-      return knex('donut_bases').insert([
-        {id: 1, base: 'cake'},
-        {id: 3, base: 'old fashion'},
-        {id: 2, base: 'yeast'},
+      return knex('donut_base').insert([
+        {name: 'cake'},
+        {name: 'yeast'},
+        {name: 'old fashion'},
       ]);
     });
 };

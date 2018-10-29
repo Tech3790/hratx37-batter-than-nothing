@@ -1,68 +1,86 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Donuts from './donuts.jsx'
-import Home from './home.jsx'
+import Donuts from './donuts.jsx';
+import Home from './home.jsx';
+import Customize from './customize.jsx';
+import Cart from './cart.jsx';
+import OrderPlaced from './orderPlaced.jsx';
 
 class App extends React.Component {
-    constructor() {
-        super()
-        this.state = { 
+    constructor(props) {
+        super(props)
+        this.state = {
+            cart: [],
             donuts: [],
             page: 'home',
-            items: 0
-        };
-                // routes: {
-                //     home: true,
-                //     donuts: false,
-                //     customize: false,
-                //     order: false,
-                // }
-    }
+            items: 0,
+            orderItems: [],
 
+        };
+
+        this.handleOrderClick = this.handleOrderClick.bind(this);
+        this.handleRoute = this.handleRoute.bind(this);
+        this.addCustomDonutToCart = this.addCustomDonutToCart.bind(this);
+    }
     componentDidMount() {
-        fetch('http://localhost:3001/api/donuts')
+        fetch('http://localhost:3001/')
             .then(res => res.json())
             .then(results => {
                 this.setState({ donuts: results })
-            })
+            });
     }
-
-    homeClick(el){
-        // have the home page clicked by default
+    homeClick(el) {
         el.click();
     }
+    handleOrderClick(donutName, quantity, price) {
+        let orderItem = {
+            name: donutName,
+            quantity: quantity,
+            total: quantity * price
+        }
+        this.setState({ cart: this.state.cart.concat([orderItem]) })
+    }
+    addCustomDonutToCart(order) {
+        let orderItem = {
+            base: order.base,
+            type: order.type,
+            topping1: order.topping1,
+            topping2: order.topping2,
+            topping3: order.topping3,
+            quantity: order.quantity,
+            total: order.total
+        }
+        this.setState({ cart: this.state.cart.concat([orderItem]) })
+    }
+    handleRoute(clickedRoute = 'home') {
 
-    handleRoute(clickedRoute = 'home'){
-        // Sets boolean value to help determine what component should show
-        // for (const route in this.state.routes) {
-        //     this.state.routes[route] = false;
-        // }
-        // this.state.routes[clickedRoute] = true;
         switch (clickedRoute) {
             case 'donuts':
-                this.setState({ page: <Donuts donuts={this.state.donuts} /> })
+                this.setState({ page: <Donuts donuts={this.state.donuts} handleClick={this.handleOrderClick} /> })
                 break;
             case 'customize':
-                this.setState({ page: 'customize component goes here' })
+                this.setState({ page: <Customize handleClick={this.addCustomDonutToCart} /> })
                 break;
             case 'cart':
-                this.setState({ page: 'cart component goes here' })
+                this.setState({ page: <Cart data={this.state.cart} handleRoute={this.handleRoute}/> })
+                break;
+            case 'orderplaced':
+                this.setState({ page: <OrderPlaced /> })
                 break;
             default:
-                this.setState({ page: <Home />})
+                this.setState({ page: <Home handleRoute={this.handleRoute} /> })
                 break;
         }
     }
-
     render() {
         return (
             <div>
                 <h1>Donut Shop</h1>
-                <nav>
-                    <a href='#' ref={this.homeClick} onClick={() => this.handleRoute('home')}>Home</a> 
-                    | <a href='#' onClick={() => this.handleRoute('donuts')}>Donuts</a>
-                    | <a href='#' onClick={() => this.handleRoute('customize')}>Customize</a>
-                    | <a href='#' onClick={() => this.handleRoute('cart')}>Cart: { this.state.items }</a>
+                <nav className="navLinks">
+                    <a className="navLink" href='#' ref={this.homeClick} onClick={() => this.handleRoute('home')}>Home</a>
+                    <a className="navLink" href='#' onClick={() => this.handleRoute('donuts')}>Donuts</a>
+                    <a className="navLink" href='#' onClick={() => this.handleRoute('customize')}>Customize</a>
+                    <a className="navLink" href='#' onClick={() => this.handleRoute('cart')}>Cart: {this.state.cart.length}</a>
                 </nav>
                 <div>
                     {this.state.page}
