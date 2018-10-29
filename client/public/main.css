@@ -1,7 +1,9 @@
 body {
     /* margin: 0px; */
 }
-
+.removeButton{
+    color: red;
+}
 .donutContainer {
     margin-right: 300px;
     margin-left: 20px;
@@ -35,14 +37,7 @@ body {
 .navLink {
     margin: 10px;
 }
-
-.toppingOption {
-    display: inline;
-    color: red;
-}
-
 .itemTd{
     margin: 100px;
-    color: red;
     padding-left: 20px;
 }

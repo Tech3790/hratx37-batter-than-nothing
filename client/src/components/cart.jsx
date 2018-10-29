@@ -63,7 +63,7 @@ class Cart extends React.Component {
                             <td className="itemTd">Name: {order.name}</td>
                             <td className="itemTd">Quantity: {order.quantity}</td>
                             <td className="itemTd">Total: {order.total}</td>
-                            <td className="itemTd"><input type="button" value="X" onClick={() => this.removeItem(i)}/></td>
+                            <td className="itemTd"><input className ="removeButton" type="button" value="X" onClick={() => this.removeItem(i)}/></td>
                         </tr>
                     ))}
                 </tbody>
@@ -78,7 +78,7 @@ class Cart extends React.Component {
                             <td className="itemTd"> Topping 3 : {order.topping3}</td>
                             <td className="itemTd"> Quantity : {order.quantity}</td>
                             <td className="itemTd"> Total : {order.total}</td>
-                            <td className="itemTd"><input type="button" value="X" onClick={() => this.removeItem(i)}/></td>
+                            <td className="itemTd"><input className ="removeButton" type="button" value="X" onClick={() => this.removeItem(i)}/></td>
                         </tr>
                     ))}
                 </tbody>
